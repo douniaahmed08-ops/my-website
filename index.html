@@ -5,234 +5,231 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مجرات فضاء المعرفة ✨</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
-    --main:#6C63FF;
-    --grad:linear-gradient(135deg,#667eea,#764ba2);
-}
-
 body{
     margin:0;
     font-family:'Cairo',sans-serif;
-    background: radial-gradient(circle at top,#1a1a2e,#0f0f1a);
+    background:black;
+    overflow:hidden;
     color:white;
-    overflow-x:hidden;
 }
 
-/* نجوم خلفية */
+/* خلفية النجوم */
 .stars{
     position:fixed;
     width:100%;
-    height:100%;
-    z-index:0;
+    height:200%;
+    background:url("https://www.transparenttextures.com/patterns/stardust.png");
+    animation:moveStars 60s linear infinite;
 }
 
-.star{
-    position:absolute;
-    width:2px;
-    height:2px;
-    background:white;
-    animation:twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-    from{opacity:.2}
-    to{opacity:1}
+@keyframes moveStars{
+    from{transform:translateY(0);}
+    to{transform:translateY(-1000px);}
 }
 
 /* شاشة البداية */
 .welcome{
     height:100vh;
     display:flex;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
+    flex-direction:column;
     text-align:center;
-    z-index:2;
-    position:relative;
 }
 
-.title{
-    font-size:3rem;
-    font-weight:800;
-    background:linear-gradient(90deg,#fff,#aaa);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    animation:fadeUp 1.5s ease;
-}
-
-@keyframes fadeUp{
-    from{opacity:0;transform:translateY(30px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-.btn{
-    margin-top:30px;
+button{
     padding:15px 40px;
-    border-radius:50px;
     border:none;
+    border-radius:50px;
+    background:linear-gradient(135deg,#4facfe,#00f2fe);
+    color:white;
     font-size:18px;
     cursor:pointer;
-    background:var(--grad);
-    color:white;
-    transition:.4s;
+    transition:.3s;
 }
 
-.btn:hover{
+button:hover{
     transform:scale(1.1);
-    box-shadow:0 0 20px #6C63FF;
+    box-shadow:0 0 20px #00f2fe;
 }
 
 /* المحتوى */
 .main{
     display:none;
-    padding:80px 20px;
     text-align:center;
-    position:relative;
-    z-index:2;
+    padding:80px 20px;
 }
 
-.section-title{
-    font-size:2.5rem;
-    margin-bottom:40px;
-}
-
-/* الكروت */
 .cards{
     display:flex;
-    flex-wrap:wrap;
     justify-content:center;
-    gap:30px;
+    gap:20px;
+    flex-wrap:wrap;
 }
 
 .card{
-    width:250px;
-    height:200px;
-    border-radius:25px;
-    background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(15px);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:1.4rem;
+    background:rgba(255,255,255,0.1);
+    padding:30px;
+    border-radius:20px;
     cursor:pointer;
+    backdrop-filter:blur(10px);
     transition:.4s;
-    border:1px solid rgba(255,255,255,0.1);
 }
 
 .card:hover{
-    transform:translateY(-15px) scale(1.05);
-    box-shadow:0 0 30px rgba(108,99,255,0.5);
+    transform:translateY(-10px) scale(1.05);
 }
 
-/* صفحات */
+/* الصفحات */
 .page{
     display:none;
-    padding:100px 20px;
     text-align:center;
+    padding:100px 20px;
 }
 
-.active{
-    display:block;
+/* فراشات */
+.butterfly{
+    position:absolute;
+    font-size:24px;
+    color:#6ecbff;
+    animation:fly 10s linear infinite;
+    filter:drop-shadow(0 0 10px #6ecbff);
 }
 
-/* زر الرجوع */
-.back{
+@keyframes fly{
+    from{
+        transform:translateY(100vh) translateX(0);
+    }
+    to{
+        transform:translateY(-100px) translateX(100px);
+    }
+}
+
+/* لمعات */
+.sparkle{
+    position:absolute;
+    width:4px;
+    height:4px;
+    background:white;
+    border-radius:50%;
+    animation:spark 1s infinite alternate;
+}
+
+@keyframes spark{
+    from{opacity:0.2}
+    to{opacity:1}
+}
+
+/* انتقال */
+.transition{
     position:fixed;
-    top:20px;
-    right:20px;
-    padding:10px 15px;
-    border:none;
-    border-radius:50px;
-    cursor:pointer;
-    background:var(--grad);
-    color:white;
+    width:100%;
+    height:100%;
+    background:black;
+    opacity:0;
+    pointer-events:none;
 }
 
-/* حركة ظهور */
-.fade{
-    animation:fadeUp 1s;
+.transition.active{
+    animation:flash 0.8s;
+}
+
+@keyframes flash{
+    0%{opacity:0;}
+    50%{opacity:1;}
+    100%{opacity:0;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="stars" id="stars"></div>
+<div class="stars"></div>
+<div class="transition" id="transition"></div>
 
 <!-- البداية -->
 <div class="welcome" id="welcome">
-    <div class="title">مجرات فضاء المعرفة ✨</div>
-    <button class="btn" onclick="enter()">دخول الموقع</button>
+<h1>مجرات فضاء المعرفة ✨</h1>
+<button onclick="enter()">دخول</button>
 </div>
 
 <!-- الرئيسية -->
 <div class="main" id="main">
-    <div class="section-title">لسنا الوحيدين ولكننا المميزون ✨</div>
+<h2>لسنا الوحيدين ولكننا المميزون ✨</h2>
 
-    <div class="cards">
-        <div class="card" onclick="openPage('about')">من نحن</div>
-        <div class="card" onclick="openPage('achievements')">إنجازاتنا</div>
-        <div class="card" onclick="openPage('team')">فريقنا</div>
-        <div class="card" onclick="openPage('contact')">تواصل معنا</div>
-    </div>
+<div class="cards">
+<div class="card" onclick="openPage('about')">من نحن</div>
+<div class="card" onclick="openPage('achievements')">إنجازاتنا</div>
+</div>
 </div>
 
 <!-- الصفحات -->
 <div id="about" class="page">
-<button class="back" onclick="back()">⬅</button>
+<button onclick="back()">رجوع</button>
 <h2>من نحن</h2>
-<p>نحن فريق مبدع نسعى لصناعة التميز ✨</p>
+<p>فريق مبدع ✨</p>
 </div>
 
 <div id="achievements" class="page">
-<button class="back" onclick="back()">⬅</button>
+<button onclick="back()">رجوع</button>
 <h2>إنجازاتنا</h2>
-<p>حققنا العديد من الإنجازات الرائعة 🚀</p>
-</div>
-
-<div id="team" class="page">
-<button class="back" onclick="back()">⬅</button>
-<h2>فريقنا</h2>
-<p>أعضاء مميزين يصنعون الفرق ⭐</p>
-</div>
-
-<div id="contact" class="page">
-<button class="back" onclick="back()">⬅</button>
-<h2>تواصل معنا</h2>
-<p>راسلونا لأي استفسار 💬</p>
+<p>إنجازات رهيبة 🚀</p>
 </div>
 
 <script>
+
 // دخول
 function enter(){
     document.getElementById("welcome").style.display="none";
     document.getElementById("main").style.display="block";
 }
 
+// انتقال
+function flash(){
+    let t=document.getElementById("transition");
+    t.classList.add("active");
+    setTimeout(()=>t.classList.remove("active"),800);
+}
+
 // فتح صفحة
 function openPage(id){
-    document.getElementById("main").style.display="none";
-    document.getElementById(id).classList.add("active");
+    flash();
+    setTimeout(()=>{
+        document.getElementById("main").style.display="none";
+        document.getElementById(id).style.display="block";
+    },400);
 }
 
 // رجوع
 function back(){
-    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-    document.getElementById("main").style.display="block";
+    flash();
+    setTimeout(()=>{
+        document.querySelectorAll(".page").forEach(p=>p.style.display="none");
+        document.getElementById("main").style.display="block";
+    },400);
 }
 
-// نجوم
-for(let i=0;i<100;i++){
+// فراشات + لمعات
+for(let i=0;i<8;i++){
+    let b=document.createElement("div");
+    b.className="butterfly";
+    b.innerHTML="🦋";
+    b.style.left=Math.random()*100+"%";
+    b.style.animationDuration=(6+Math.random()*6)+"s";
+    document.body.appendChild(b);
+}
+
+for(let i=0;i<30;i++){
     let s=document.createElement("div");
-    s.className="star";
+    s.className="sparkle";
     s.style.top=Math.random()*100+"%";
     s.style.left=Math.random()*100+"%";
-    s.style.animationDuration=(1+Math.random()*2)+"s";
-    document.getElementById("stars").appendChild(s);
+    document.body.appendChild(s);
 }
+
 </script>
 
 </body>
